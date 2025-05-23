@@ -35,7 +35,7 @@ _STATE_CODES = {'AL': '01', 'AK': '02', 'AZ': '04', 'AR': '05', 'CA': '06',
 def download_and_extract(url, datadir, remote_fname, file_name, delete_download=False):
     """Helper function to download and unzip files."""
     download_path = os.path.join(datadir, remote_fname)
-    response = requests.get(url)
+    response = requests.get(url, allow_redirects=True, verify=False)
     with open(download_path, 'wb') as handle:
         handle.write(response.content)
     
@@ -44,7 +44,8 @@ def download_and_extract(url, datadir, remote_fname, file_name, delete_download=
     
     if delete_download and download_path != os.path.join(datadir, file_name):
         os.remove(download_path)
-
+    import time
+    time.sleep(5)  # avoid overwhelming the server with requests
 
 def initialize_and_download(datadir, state, year, horizon, survey, download=False, use_archive=False):
     """Download the dataset (if required)."""
