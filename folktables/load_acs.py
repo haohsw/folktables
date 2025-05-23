@@ -116,6 +116,8 @@ def load_acs(root_dir, states=None, year=2018, horizon='1-Year',
         file_names.append(
             initialize_and_download(base_datadir, state, year, horizon, survey, download=download, use_archive=use_archive)
         )
+        import time
+        time.sleep(5)  # avoid overwhelming the server with requests
 
     dtypes = {'PINCP': np.float64, 'RT': str, 'SOCP': str, 'SERIALNO': str, 'NAICSP': str}
     df_list = []
